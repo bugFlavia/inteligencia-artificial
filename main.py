@@ -43,3 +43,44 @@ print(f'Correlação entre Preço Distribuição e Preço Revenda: \n{correlacao
 print(f'Coeficiente angular (slope): {slope}')
 print(f'Intercepto (intercept): {intercept}')
 print(f'Coeficiente de determinação (R²): {r_value**2}')
+
+preco_distribuicao_ponta_pora = [4.92, 5.09, 5.29, 5.21, 5.10, 5.05, 5.03, 5.22, 5.28, 5.29]
+preco_revenda_ponta_pora = [5.66, 5.89, 6.08, 6.05, 5.92, 5.84, 5.80, 5.90, 5.99, 6.00]
+
+# Criar o DataFrame
+df = pd.DataFrame({
+    'Preço Distribuição (R$)': preco_distribuicao_nova_andradina,
+    'Preço Revenda (R$)': preco_revenda_nova_andradina
+})
+
+# Calcular a regressão linear
+slope, intercept, r_value, p_value, std_err = linregress(preco_distribuicao_nova_andradina, preco_revenda_nova_andradina)
+
+# Gerar os valores da linha de tendência
+x = np.array(preco_distribuicao_nova_andradina)
+y_tendencia = slope * x + intercept
+
+# Criar o gráfico
+plt.figure(figsize=(10, 6))
+plt.scatter(preco_distribuicao_nova_andradina, preco_revenda_nova_andradina, color='blue', label='Dados Observados')
+plt.plot(x, y_tendencia, color='red', label='Linha de Tendência')
+
+# Adicionar a equação da linha de tendência ao gráfico
+plt.text(min(x) + 0.1, max(preco_revenda_nova_andradina) - 0.1, f'y = {slope:.4f}x + {intercept:.4f}', fontsize=12, color='red')
+
+# Personalizar o gráfico
+plt.title('Regressão Linear entre Preço Distribuição e Preço Revenda')
+plt.xlabel('Preço Distribuição (R$)')
+plt.ylabel('Preço Revenda (R$)')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Calcular a correlação
+correlacao = df.corr()
+
+# Exibir os resultados
+print(f'Correlação entre Preço Distribuição e Preço Revenda: \n{correlacao}\n')
+print(f'Coeficiente angular (slope): {slope}')
+print(f'Intercepto (intercept): {intercept}')
+print(f'Coeficiente de determinação (R²): {r_value**2}')
